@@ -10,22 +10,265 @@
 class: center, middle
 
 # React Design Patterns
+<img src='react.svg' className="App-logo" alt="react-logo" />
 
 ---
 
-# Agenda
+# Hello World!
+<div height="300px">
+    <img src="./BNR_SITE.png" style="display:inline-block; max-width: 69%;" height="300px">
 
-1. Introduction
-2. Deep-dive
-3. ...
+    <img src="./Headshot_small.jpg" style="display:inline-block; max-width: 30%;" height="250px">
+</div>
+
+
+???
+
+(2 min) 
+1. BNR
+2. ...is Hiring (JS positions and internship)
+
+3. Me - web dev, use mostly react (some vue/angularJS experience) coding for two years post-bootcamp
 
 ---
 
-# Introduction
+# Flow
+
+- Component Hierarchy
+- Functional Programming in React
+- Component Structure and Patterns
+      - Stateless Functional Components
+      - Composition > Inheritance
+      - MVC is not completely dead
+- Higher Order Components
+      - component -> component *--vs--* component -> UI
+- Functions as Child Components
+- Render Props
+
+???
+Here's the flow of the talk, we'll first discuss the underlying component structure of React and then get into the various patterns that can be undercovered from such a foundation. React makes it intuitive to code in a very "FP" or functional way and this means we can build applications that are composed of various designs and component structures.  These include: 
+
+---
+
+# React Component Hierarchy 
+<img src="./react-flow.png" height="300px">
+
+???
+(5 min) 
+
+- Unidirectional Data Flow
+- parent -> Child (pass data via props, actions flow up)
+- Abstraction - so one unit doesn't leak into another unit.
+- Reusable, modular code encapsulated in each component
+
+---
+
+# React Component Structure Theory
+
+- Composition > Inheritance
+  - try to think of making a composable function (that inputs data and outputs UI).
+  - besides inheriting from react.component, it is bad practice to inherit from other components
+  - Composition: To achieve truly reusable features, it is not enough to simply reuse leaves and build new containers for them. You also need to be able to build abstractions from the containers that compose other abstractions. The way I think about "composition" is that they're combining two or more different abstractions into a new one.
+  - compound function (output of first function = input of second...)
+ 
+```js
+  function FancyBox(children) {
+    return {
+      borderStyle: '1px solid blue',
+      children: children
+    };
+  }
+  
+  function UserBox(user) {
+    return FancyBox([
+      'Name: ',
+      NameBox(user.firstName + ' ' + user.lastName)
+    ]);
+  }```
+
+
+- The idea is to separate logic from presentation in your components.
+  - how to separate logic, state and display properties to make your components more flexible and usable across large React applications.
+
+???
+(10 min) 
+
+---
+
+
+# Functional Programming in React 
+
+- Ideally, your application should be composed of pure functions whose data are treated as immutable. That means they’re not modifying their upper scope and you’re thus free to reuse them in any part of your program. Each function should be responsible for a single task and should be separated from the other ones. You can use them as they are or you can compose them together to achieve more complex behavior.
+
+- By sticking to FP principles, you will end up with simple reusable functions that can be composed together.
+
+---
+
+#  React Component Structure Patterns in Practice
+
+- Stateless Functional Components
+  - versus Stateful components (one extends react.component and inherits all its functions, one is just a function)
+
+???
+
+practice, not theory
+
+---
+
+# Away from MVC
+
+- MVC is not completely dead
+  - the view = the render() function, the controller = the component's logic functions
+- reusable components that are both readable and easy to test as each component is only responsible for a single task.
+   - single responsibility principle
+
+---
+
+# Stateless Functional Components
+- They don’t hold state; they’re just functions.
+
+```js
+const Greeting = () => <div>Hello!</div>
+```
+- what you'll often see is stateFUL container components (logic/network requests...) that render stateLESS functional components as children. So they are more reusable. 
+
+- Stateless Functional Components only know whatever they're parent component tells them (via props)
+
+- 'dumb'
+
+---
+
+# More React Component Structure/Patterns
+
+- In Kent C. Dodd's course here are the patterns: 
+
+  - *Compound Components Pattern* : Use the Compound Components Pattern to write components that share state implicitly while giving rendering flexibility to the user.
+
+  - *Render Props Pattern* : Seperate the state of your component from how it’s rendered to allow for total flexibility of the UI without increasing complexity of the implementation.
+
+  - *Prop Getter Pattern* : Improve the render prop API with the Prop Getter Pattern.
+
+  - *Controlled Props Pattern* : Pass control props that a component should use as its state with the Controlled Props Pattern.
+
+  - *Provider Pattern* : And how to take advantage of React’s Context API to share state throughout the application with the Provider Pattern.
+
+???
+  (10 min) 
+---
+
+# Revisiting Functional Programming
+
+- pure (same input= same output)
+- Building an application from pure functions enables us to more easily reason about the behaviour of an application.
+- no side-effects
+- immutable, resuable 
+- simple functions. This means that each function should only be responsible for a single task. The simpler the function, the more reusable it is.
+- Functional programming is all about declarative code.
+   - vs imperative
+  - you declare your state, react knows what to do with it to render
+
+???
+  (5 min)
+---
+
+# Higher Order Components
+- component -> component *--vs--* component -> UI
+- Higher-Order Components (HOCs) are simply functions that take at least one component as a parameter and return another component.
+  - Usually it adds props to the passed component after doing some work.
+
+???
+(10 min)
+
+---
+
+# Functions as Child Components
+
+- render a function within JSX as a child component
+
+???
+(5 min)
+
+---
+
+# Render Props 
+- Seperate the state of your component from how it’s rendered to allow for total flexibility of the UI without increasing complexity of the implementation.
+- pass a render function as a prop from parent to child component
+
+```js
+const HOC = returnAComponent(View);
+
+class App extends Component {
+  render() {
+    return (
+        <HOC render={props => <View {...props} />} />
+    );
+  }
+}
+```
+
+???
+(5 min)
+---
+
+# Render Props
+
+- I've never used this pattern, personally, but here are examples of it in libraries I've used
+- react router
+
+---
+
+# That's a wrap
+ - React favors composition over inheeritance
+ - Functional Programming favors pure, immulatable functions with no side side-effects
+ - React Design is Functional
+ - Uni-directional Data Flow (child component's data/input comes from parent component)
+    - child is a function of parent and the data it recieves from parent
+    - Stateless vs. Stateful components
+- 
+
+???
+- review each pattern
+- emphasize design principles
+
+---
+
+# Resources
+- https://reactjs.org/docs/design-principles.html
+
+---
+
+# <img src="./warning.png" height="50px"> Freebie! <img src="./warning.png" height="50px">
+- Frontier by BNR ................. https://thefrontier.bignerdranch.com
+- 14 Day Free trial PLUS one extra month free
+- coupon code: WWC2018
+
+<div style="margin:auto; width: 100%; text-align: center">
+    <img src="./FRONTIER_SITE.png" height="400px">
+</div>
+
+???
+The Frontier is a screencast site with bite-size video tutorials
+- Watch expert developers solve real-world problems beyond the basics.
+- intermediate/advanced level screencasts
+- little “nuggets of knowledge”
+- web / ios / android
+
+- basically 45 days free
+---
+
+# 
+<img src="./thankyou.jpg" height="500px">
+
+
+???
+(40 minutes total)
+
+
 
     </textarea>
-    <script src="https://remarkjs.com/downloads/remark-latest.min.js">
-    </script>
+    <!-- <script src="https://remarkjs.com/downloads/remark-latest.min.js"> -->
+    <!-- </script> -->
+    <script src="remark.js"></script>
     <script>
       var slideshow = remark.create();
     </script>
